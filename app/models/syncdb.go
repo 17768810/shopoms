@@ -7,7 +7,7 @@ import (
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
-	_ "github.com/mattn/go-sqlite3"
+	//_ "github.com/mattn/go-sqlite3"
 	"github.com/wqdsoft/shopoms/app/libs"
 	"log"
 	"os"
@@ -54,13 +54,13 @@ func Connect() {
 	case "postgres":
 		orm.RegisterDriver("postgres", orm.DRPostgres)
 		dns = fmt.Sprintf("dbname=%s host=%s  user=%s  password=%s  port=%s  sslmode=%s", db_name, db_host, db_user, db_pass, db_port, db_sslmode)
-	case "sqlite3":
-		orm.RegisterDriver("sqlite3", orm.DRSqlite)
-		if db_path == "" {
-			db_path = "./"
-		}
-		dns = fmt.Sprintf("%s%s.db", db_path, db_name)
-		break
+	// case "sqlite3":
+	// 	orm.RegisterDriver("sqlite3", orm.DRSqlite)
+	// 	if db_path == "" {
+	// 		db_path = "./"
+	// 	}
+	// 	dns = fmt.Sprintf("%s%s.db", db_path, db_name)
+	// 	break
 	default:
 		beego.Critical("Database driver is not allowed:", db_type)
 	}
@@ -90,14 +90,14 @@ func createDB() {
 		dns = fmt.Sprintf("host=%s  user=%s  password=%s  port=%s  sslmode=%s", db_host, db_user, db_pass, db_port, db_sslmode)
 		sqlstring = fmt.Sprintf("CREATE DATABASE %s", db_name)
 		break
-	case "sqlite3":
-		if db_path == "" {
-			db_path = "./"
-		}
-		dns = fmt.Sprintf("%s%s.db", db_path, db_name)
-		os.Remove(dns)
-		sqlstring = "create table init (n varchar(32));drop table init;"
-		break
+	// case "sqlite3":
+	// 	if db_path == "" {
+	// 		db_path = "./"
+	// 	}
+	// 	dns = fmt.Sprintf("%s%s.db", db_path, db_name)
+	// 	os.Remove(dns)
+	// 	sqlstring = "create table init (n varchar(32));drop table init;"
+	// 	break
 	default:
 		beego.Critical("Database driver is not allowed:", db_type)
 	}

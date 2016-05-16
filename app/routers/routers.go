@@ -3,6 +3,8 @@ package routers
 import (
 	"github.com/astaxie/beego"
 	"github.com/wqdsoft/shopoms/app/controllers"
+	"github.com/wqdsoft/shopoms/app/handlers"
+	"net/http"
 )
 
 func init() {
@@ -20,5 +22,6 @@ func init() {
 	beego.AutoRouter(&controllers.TaskController{})
 	beego.AutoRouter(&controllers.GroupController{})
 	beego.AutoRouter(&controllers.AgentController{})
-
+	//微信接口处理
+	beego.Handler("/weixincallback(.*)", http.HandlerFunc(handlers.WxCallbackHandler))
 }
